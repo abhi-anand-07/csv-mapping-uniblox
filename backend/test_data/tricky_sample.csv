@@ -1,0 +1,6 @@
+employee#,given name,surname,DOB,state_code,postal,compensation,date hired,work status,benefit amount,tobacco use,children count,department,start date
+E101,Michael,Scott,1964-03-15,PA,18501,75000,2004-01-01,Active,500000,no,0,Sales,2004-01-01
+E102,Dwight,Schrute,1970-01-20,PA,18501,65000,2006-03-15,Active,400000,no,0,Sales,2006-03-15
+E103,Jim,Halpert,1978-10-01,PA,18501,72000,2006-03-15,Active,450000,no,2,Sales,2006-03-15
+E104,Pam,Beesly,1979-03-25,PA,18501,52000,2005-01-01,Active,350000,no,2,Reception,2005-01-01
+E105,Ryan,Howard,1979-11-05,NY,10001,48000,2008-09-01,Terminated,200000,yes,0,Temp,2008-09-01

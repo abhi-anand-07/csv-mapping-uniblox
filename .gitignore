@@ -1,0 +1,44 @@
+# User's initial plan file
+plan.md
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/venv/
+backend/data/
+backend/server.log
+backend/*.pid
+backend/.env
+
+# Node
+frontend/node_modules/
+frontend/frontend.log
+frontend/.frontend.pid
+frontend/dist/
+frontend/dist-ssr/
+*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Runtime / PID files
+*.pid
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Misc
+.env
+.env.local
