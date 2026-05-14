@@ -40,3 +40,8 @@ npm-debug.log*
 # Cloudflare
 .wrangler/
 wrangler.toml
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
