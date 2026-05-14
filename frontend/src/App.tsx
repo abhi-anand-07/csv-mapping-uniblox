@@ -19,11 +19,14 @@ export default function App() {
 
   return (
     <div className="container">
-      <header style={{ marginBottom: 24 }}>
-        <h1 style={{ marginBottom: 4 }}>AI Mapping Copilot</h1>
-        <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
-          Intelligent column mapping for insurance operations. Upload a CSV, review AI proposals, and publish clean data.
-        </p>
+      <header style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 16 }}>
+        <img src="/logo.jpeg" alt="Uniblox" style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }} />
+        <div>
+          <h1 style={{ marginBottom: 4 }}>AI Mapping Copilot</h1>
+          <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
+            Intelligent column mapping for insurance operations. Upload a CSV, review AI proposals, and publish clean data.
+          </p>
+        </div>
       </header>
 
       {error && (

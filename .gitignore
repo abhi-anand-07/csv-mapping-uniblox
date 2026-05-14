@@ -1,5 +1,5 @@
 # User's initial plan file
-plan.md
+# plan.md
 
 # macOS
 .DS_Store
@@ -11,7 +11,8 @@ __pycache__/
 *.so
 .Python
 backend/venv/
-backend/data/
+# Keep data in repo
+# backend/data/
 backend/server.log
 backend/*.pid
 backend/.env
