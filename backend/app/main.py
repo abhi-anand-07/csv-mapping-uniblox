@@ -8,7 +8,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 
-from app.config import CANONICAL_SCHEMA, REQUIRED_FIELDS
+from app.config import CANONICAL_SCHEMA, REQUIRED_FIELDS, ALLOWED_ORIGINS
 from app.database import (
     create_session,
     get_session,
@@ -32,7 +32,7 @@ app = FastAPI(title="AI Mapping Copilot", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

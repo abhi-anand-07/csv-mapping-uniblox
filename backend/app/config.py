@@ -6,6 +6,9 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
 
+# CORS origins - add your Cloudflare Pages domain here
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+
 CANONICAL_SCHEMA = {
     "employee_id": {"type": "string", "required": True, "description": "Unique identifier for the employee"},
     "first_name": {"type": "string", "required": True, "description": "Employee's first name"},

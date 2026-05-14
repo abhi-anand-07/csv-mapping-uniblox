@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import ConfidenceBadge from './ConfidenceBadge';
 import ExplanationPanel from './ExplanationPanel';
 import { MappingProposal, PublishResult } from '../types';
@@ -29,7 +29,7 @@ export default function MappingReview({ proposal, onRefresh }: Props) {
   const [schema, setSchema] = useState<SchemaResponse | null>(null);
 
   useEffect(() => {
-    axios.get('/api/schema')
+    api.get('/api/schema')
       .then((res) => setSchema(res.data))
       .catch((err) => console.error('Failed to load schema', err));
   }, []);
@@ -50,7 +50,7 @@ export default function MappingReview({ proposal, onRefresh }: Props) {
     setSaving(true);
     setError('');
     try {
-      const res = await axios.patch(`/api/mappings/${proposal.session_id}`, updates);
+      const res = await api.patch(`/api/mappings/${proposal.session_id}`, updates);
       onRefresh(res.data);
       setEdits({});
     } catch (err: any) {
@@ -64,8 +64,8 @@ export default function MappingReview({ proposal, onRefresh }: Props) {
     setPublishing(true);
     setError('');
     try {
-      await axios.post(`/api/approve/${proposal.session_id}`);
-      const res = await axios.post(`/api/publish/${proposal.session_id}`);
+      await api.post(`/api/approve/${proposal.session_id}`);
+      const res = await api.post(`/api/publish/${proposal.session_id}`);
       setPublished(res.data);
     } catch (err: any) {
       setError(err?.response?.data?.detail || 'Failed to publish.');

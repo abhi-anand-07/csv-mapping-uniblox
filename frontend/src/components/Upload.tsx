@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { MappingProposal } from '../types';
 
 interface Props {
@@ -20,7 +20,7 @@ export default function Upload({ onUpload, onError }: Props) {
     try {
       const form = new FormData();
       form.append('file', file);
-      const res = await axios.post('/api/upload', form, {
+      const res = await api.post('/api/upload', form, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       onUpload(res.data);
