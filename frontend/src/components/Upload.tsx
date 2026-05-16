@@ -46,6 +46,25 @@ export default function Upload({ onUpload, onError }: Props) {
 
   const onDragLeave = useCallback(() => setDragOver(false), []);
 
+  const testWithSample = async () => {
+    setUploading(true);
+    try {
+      const res = await fetch('/sample.csv');
+      const blob = await res.blob();
+      const file = new File([blob], 'sample.csv', { type: 'text/csv' });
+      const form = new FormData();
+      form.append('file', file);
+      const uploadRes = await api.post('/api/upload', form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      onUpload(uploadRes.data);
+    } catch (err: any) {
+      onError(err?.response?.data?.detail || 'Failed to load sample file.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div className="card">
       <h2 style={{ marginBottom: 8 }}>Upload Spreadsheet</h2>
@@ -81,6 +100,25 @@ export default function Upload({ onUpload, onError }: Props) {
             </div>
           </>
         )}
+      </div>
+
+      <div style={{ display: 'flex', gap: 12, marginTop: 16, justifyContent: 'center' }}>
+        <a
+          href="/sample.csv"
+          download
+          className="btn btn-outline"
+          style={{ fontSize: 13 }}
+        >
+          ⬇️ Download Sample CSV
+        </a>
+        <button
+          onClick={testWithSample}
+          className="btn btn-outline"
+          style={{ fontSize: 13 }}
+          disabled={uploading}
+        >
+          🧪 Test with Sample
+        </button>
       </div>
     </div>
   );
