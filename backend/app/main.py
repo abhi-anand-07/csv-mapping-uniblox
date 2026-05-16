@@ -288,4 +288,9 @@ if static_dir and os.path.isdir(static_dir):
             raise HTTPException(status_code=404)
         if path.startswith("assets/"):
             raise HTTPException(status_code=404)
+        # Serve actual static files (sample.csv, logo.jpeg, etc.)
+        file_path = os.path.join(static_dir, path)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        # SPA fallback for client-side routes
         return FileResponse(static_index)
