@@ -7,6 +7,7 @@ import pandas as pd
 from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import CANONICAL_SCHEMA, REQUIRED_FIELDS, ALLOWED_ORIGINS
 from app.database import (
@@ -258,3 +259,28 @@ def download_published_csv(session_id: str):
         media_type="text/csv",
         filename=f"mapped_{session_id[:8]}.csv",
     )
+
+
+# ── Static files + SPA fallback (production single-service deploy) ──
+static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "static"))
+static_index = os.path.join(static_dir, "index.html")
+
+if os.path.isdir(static_dir):
+    # Serve Vite-generated assets
+    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+
+    @app.get("/")
+    def serve_root():
+        return FileResponse(static_index)
+
+    @app.get("/logo.jpeg")
+    def serve_logo():
+        return FileResponse(os.path.join(static_dir, "logo.jpeg"))
+
+    @app.get("/{path:path}")
+    def serve_spa(path: str):
+        if path.startswith("api/"):
+            raise HTTPException(status_code=404)
+        if path.startswith("assets/"):
+            raise HTTPException(status_code=404)
+        return FileResponse(static_index)

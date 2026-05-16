@@ -11,6 +11,7 @@ backend/venv/
 backend/data/*.csv
 backend/data/*_input.csv
 backend/data/*_published.csv
+backend/static/
 backend/server.log
 backend/*.pid
 backend/.env
