@@ -262,10 +262,15 @@ def download_published_csv(session_id: str):
 
 
 # ── Static files + SPA fallback (production single-service deploy) ──
-static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "static"))
-static_index = os.path.join(static_dir, "index.html")
+# Check multiple possible static locations (local dev vs Docker)
+_static_candidates = [
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "static")),
+    "/app/static",
+]
+static_dir = next((d for d in _static_candidates if os.path.isdir(d)), None)
+static_index = os.path.join(static_dir, "index.html") if static_dir else None
 
-if os.path.isdir(static_dir):
+if static_dir and os.path.isdir(static_dir):
     # Serve Vite-generated assets
     app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
 
