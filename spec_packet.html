@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AI Mapping Copilot - Spec Packet</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AI Mapping Copilot - Spec Packet</h1>
+</header>
+<h1 id="ai-mapping-copilot-spec-packet">AI Mapping Copilot — Spec
+Packet</h1>
+<p><strong>Live App:</strong>
+https://csv-mapping-uniblox-production.up.railway.app<br />
+<strong>GitHub:</strong>
+https://github.com/abhi-anand-07/csv-mapping-uniblox</p>
+<hr />
+<h2 id="problem-goals">1. Problem &amp; Goals</h2>
+<h3 id="problem">Problem</h3>
+<p>Insurance operations teams receive spreadsheets from brokers,
+employers, and third parties. Every sender uses different column names
+for the same data:</p>
+<table>
+<thead>
+<tr>
+<th>Sender A</th>
+<th>Sender B</th>
+<th>Canonical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Emp ID</code></td>
+<td><code>employee#</code></td>
+<td><code>employee_id</code></td>
+</tr>
+<tr>
+<td><code>F Name</code></td>
+<td><code>given name</code></td>
+<td><code>first_name</code></td>
+</tr>
+<tr>
+<td><code>DOB</code></td>
+<td><code>Birth Dt</code></td>
+<td><code>date_of_birth</code></td>
+</tr>
+<tr>
+<td><code>Annual Pay</code></td>
+<td><code>compensation</code></td>
+<td><code>annual_salary</code></td>
+</tr>
+</tbody>
+</table>
+<p>Manual mapping is slow, error-prone, and doesn’t scale.</p>
+<h3 id="goals">Goals</h3>
+<ul>
+<li>Automate column-header normalization to a canonical schema</li>
+<li>Explain AI reasoning so users trust proposals</li>
+<li>Require human approval before publishing clean data</li>
+<li>Handle messy real-world CSVs (abbreviations, typos, missing
+headers)</li>
+</ul>
+<hr />
+<h2 id="user-workflow">2. User Workflow</h2>
+<pre><code>Upload CSV → AI Proposes Mappings → User Reviews &amp; Edits → Approve → Download Clean CSV</code></pre>
+<ol type="1">
+<li><strong>Upload</strong> — User drops a CSV into the browser</li>
+<li><strong>AI Mapping</strong> — Multi-step agent parses headers,
+sample rows, calls Gemini LLM, validates output</li>
+<li><strong>Review</strong> — User sees a table with confidence scores,
+reasoning, warnings. Can edit any mapping via dropdown.</li>
+<li><strong>Approve</strong> — User confirms mappings. Publish blocked
+if required fields are missing.</li>
+<li><strong>Download</strong> — Backend generates canonical CSV with
+correct column names and order.</li>
+</ol>
+<hr />
+<h2 id="requirements">3. Requirements</h2>
+<h3 id="functional">Functional</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-1</td>
+<td>Accept CSV upload via drag-and-drop</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-2</td>
+<td>Parse CSV with encoding fallback (utf-8, latin1, cp1252)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-3</td>
+<td>Propose mappings to 12-field canonical schema</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-4</td>
+<td>Display confidence score (0–1) and level
+(High/Medium/Low/Uncertain)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-5</td>
+<td>Show human-readable reasoning per mapping</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-6</td>
+<td>Allow inline editing of mappings before approval</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-7</td>
+<td>Block publish until required fields are mapped</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-8</td>
+<td>Generate downloadable canonical CSV on publish</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FR-9</td>
+<td>Provide sample CSV for testing</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="non-functional">Non-Functional</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-1</td>
+<td>Only headers + 5 sample rows sent to LLM (no raw data)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>NFR-2</td>
+<td>Works without LLM API key (rule-based fallback)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>NFR-3</td>
+<td>Max file size: 10MB</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>NFR-4</td>
+<td>Response time: &lt; 5s for mapping proposal</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ai-behavior-guardrails">4. AI Behavior + Guardrails</h2>
+<h3 id="multi-step-agent-pipeline">Multi-Step Agent Pipeline</h3>
+<ol type="1">
+<li><strong>Ingestion</strong> — Extract headers, sample rows, detect
+data types (string, numeric, date, boolean, state, zip)</li>
+<li><strong>Mapping</strong> — Gemini LLM proposes mappings with
+confidence and reasoning via structured JSON prompt</li>
+<li><strong>Validation</strong> — Detect conflicts (multiple sources →
+same target), flag low confidence, check required field coverage</li>
+<li><strong>Explanation</strong> — Generate summary paragraph +
+per-column reasoning</li>
+</ol>
+<h3 id="guardrails">Guardrails</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr>
+<th>Guardrail</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No raw data to LLM</td>
+<td>Only headers + 5 rows sent to Gemini</td>
+</tr>
+<tr>
+<td>Human-in-the-loop</td>
+<td>All mappings require explicit user approval</td>
+</tr>
+<tr>
+<td>Required fields</td>
+<td>Publish blocked until employee_id, first_name, last_name,
+date_of_birth are mapped</td>
+</tr>
+<tr>
+<td>Confidence display</td>
+<td>Every mapping shows visual badge + percentage</td>
+</tr>
+<tr>
+<td>Conflict detection</td>
+<td>Warning badge when multiple columns map to same target</td>
+</tr>
+<tr>
+<td>Fallback mode</td>
+<td>Rule-based mapper with 100+ header aliases works without API
+key</td>
+</tr>
+<tr>
+<td>Edit audit</td>
+<td>User edits override AI proposals with 100% confidence</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="evaluation-plan">5. Evaluation Plan</h2>
+<h3 id="automated-tests">Automated Tests</h3>
+<ul>
+<li><strong>Unit:</strong> CSV parser handles unnamed columns,
+duplicates, encoding issues</li>
+<li><strong>Unit:</strong> Type detector correctly identifies boolean,
+date, numeric, state, zip</li>
+<li><strong>Integration:</strong> Full upload → map → edit → approve →
+publish → download flow</li>
+</ul>
+<h3 id="manual-evaluation">Manual Evaluation</h3>
+<table>
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 25%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Test Case</th>
+<th>Input</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clean headers</td>
+<td><code>employee_id</code>, <code>first_name</code>…</td>
+<td>100% confidence, all fields mapped</td>
+</tr>
+<tr>
+<td>Messy headers</td>
+<td><code>Emp#</code>, <code>FirstNm</code>, <code>DOB</code>,
+<code>St</code></td>
+<td>Correct mapping with reasoning</td>
+</tr>
+<tr>
+<td>Ambiguous columns</td>
+<td><code>date hired</code> + <code>start date</code></td>
+<td>Conflict warning on <code>hire_date</code></td>
+</tr>
+<tr>
+<td>Missing required</td>
+<td>No <code>date_of_birth</code> column</td>
+<td>Missing required alert, publish blocked</td>
+</tr>
+<tr>
+<td>Non-CSV file</td>
+<td>Upload <code>.xlsx</code></td>
+<td>Rejected with clear error</td>
+</tr>
+</tbody>
+</table>
+<h3 id="success-metrics">Success Metrics</h3>
+<ul>
+<li><strong>Precision:</strong> % of AI-proposed mappings that are
+correct (target: &gt; 90%)</li>
+<li><strong>Coverage:</strong> % of required fields found without user
+edit (target: &gt; 85%)</li>
+<li><strong>Time-to-map:</strong> Median seconds from upload to proposal
+(target: &lt; 3s)</li>
+</ul>
+<hr />
+<h2 id="instrumentation-logging">6. Instrumentation &amp; Logging</h2>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 69%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What is Logged</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backend</strong></td>
+<td>Session ID, file name, row count, proposed mappings, user edits,
+approval status, publish metadata</td>
+</tr>
+<tr>
+<td><strong>AI Agent</strong></td>
+<td>Gemini prompt tokens, response time, fallback usage, parsing
+warnings</td>
+</tr>
+<tr>
+<td><strong>Frontend</strong></td>
+<td>Upload events, edit actions, approval clicks, download events</td>
+</tr>
+</tbody>
+</table>
+<h3 id="privacy">Privacy</h3>
+<ul>
+<li>Full CSVs stored server-side only during active session</li>
+<li>No proprietary data sent to external LLM (only headers + 5
+anonymized rows)</li>
+<li>Sessions are in-memory; no persistent database of user uploads</li>
+</ul>
+<hr />
+<h2 id="rollout-plan">7. Rollout Plan</h2>
+<h3 id="phase-1-internal-validation-week-1">Phase 1: Internal Validation
+(Week 1)</h3>
+<ul>
+<li>Team tests with 10 real-world messy CSVs</li>
+<li>Fix edge cases in parser and fallback mapper</li>
+<li>Tune Gemini prompt based on failure modes</li>
+</ul>
+<h3 id="phase-2-beta-users-week-23">Phase 2: Beta Users (Week 2–3)</h3>
+<ul>
+<li>5 operations team members get access</li>
+<li>Collect feedback on confidence thresholds and edit UX</li>
+<li>Add aliases based on domain-specific headers discovered</li>
+</ul>
+<h3 id="phase-3-general-availability-week-4">Phase 3: General
+Availability (Week 4)</h3>
+<ul>
+<li>Open to all operations staff</li>
+<li>Monitor precision/coverage metrics</li>
+<li>Add SSO and audit logging for compliance</li>
+</ul>
+<hr />
+<h2 id="appendix-tech-stack-deployment">Appendix: Tech Stack &amp;
+Deployment</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Tech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend</td>
+<td>React 18, TypeScript, Vite</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Python, FastAPI, Pandas</td>
+</tr>
+<tr>
+<td>AI</td>
+<td>Google Gemini 3.1 Flash Lite</td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td>Railway (Docker, single container)</td>
+</tr>
+<tr>
+<td>Repo</td>
+<td>https://github.com/abhi-anand-07/csv-mapping-uniblox</td>
+</tr>
+<tr>
+<td>Live URL</td>
+<td>https://csv-mapping-uniblox-production.up.railway.app</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
